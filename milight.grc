@@ -1984,7 +1984,7 @@
     </param>
     <param>
       <key>output_fmt</key>
-      <value>%Y-%m-%d %H:%M:%S %[bits] %[man-bits]</value>
+      <value>%Y-%m-%d %H:%M:%S %[bits]</value>
     </param>
     <param>
       <key>pattern</key>
