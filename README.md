@@ -1,6 +1,8 @@
 # Milight RF reversing
 
-TODO
+Documentation and tools for MiLight remote-controlled lightbulb.
+
+These docs are specific to the dual-white bulbs/remotes. The protocol differs from the RGBW hardware but there are details of that on [Henryk Plötz' Hackaday.io page](https://hackaday.io/project/5888-reverse-engineering-the-milight-on-air-protocol).
 
 ## Specs
 
