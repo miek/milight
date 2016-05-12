@@ -20,7 +20,14 @@ def handle_packet(pkt):
     count1,    pkt = slice_int(pkt, 8)
     count2,    pkt = slice_int(pkt, 8)
     crc,       pkt = slice_int(pkt, 16)
-    print "len: {} remote_id: {} group: {} button: {} counts: ({}, {}) crc: {}".format(length, remote_id, group, button, count1, count2, hex(crc))
+    print "len: {} remote_id: {} group: {} button: {} long press: {} counts: ({}, {}) crc: {}".format(
+        length,
+        hex(remote_id),
+        group,
+        button,
+        count1,
+        count2,
+        hex(crc))
 
 def main():
     context = zmq.Context()
