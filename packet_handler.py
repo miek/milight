@@ -5,6 +5,23 @@ import zmq
 button_mask = 0b1111
 long_press_mask = 0b10000
 
+button_map = {
+    2:  "#4 on",
+    3:  "#2 off",
+    4:  "Decrease brightness",
+    5:  "All on",
+    6:  "#4 off",
+    7:  "#3 on",
+    8:  "#1 on",
+    9:  "All off",
+    10: "#3 off",
+    11: "#1 off",
+    12: "Increase brightness",
+    13: "#2 on",
+    14: "Decrease colour temp.",
+    15: "Increase Colour temp.",
+}
+
 def slice_int(str, count, reverse = True):
     s1,s2 = slice_str(str, count, reverse)
     return int(s1, 2), s2
@@ -31,7 +48,7 @@ def handle_packet(pkt):
         length,
         hex(remote_id),
         group,
-        button,
+        button_map[button],
         long_press,
         count1,
         count2,
