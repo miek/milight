@@ -2,6 +2,9 @@ from bitstring import *
 import pmt
 import zmq
 
+button_mask = 0b1111
+long_press_mask = 0b10000
+
 def slice_int(str, count, reverse = True):
     s1,s2 = slice_str(str, count, reverse)
     return int(s1, 2), s2
@@ -16,15 +19,20 @@ def handle_packet(pkt):
     length,    pkt = slice_int(pkt, 8)
     remote_id, pkt = slice_int(pkt, 24)
     group,     pkt = slice_int(pkt, 8)
-    button,    pkt = slice_str(pkt, 8)
+    button,    pkt = slice_int(pkt, 8)
     count1,    pkt = slice_int(pkt, 8)
     count2,    pkt = slice_int(pkt, 8)
     crc,       pkt = slice_int(pkt, 16)
+
+    long_press = bool(button & long_press_mask)
+    button = button & button_mask
+
     print "len: {} remote_id: {} group: {} button: {} long press: {} counts: ({}, {}) crc: {}".format(
         length,
         hex(remote_id),
         group,
         button,
+        long_press,
         count1,
         count2,
         hex(crc))
