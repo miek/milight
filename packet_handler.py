@@ -88,7 +88,7 @@ def main():
         p = pmt.deserialize_str(msg)
         pkt = pmt.to_python(p)[1]
 
-        if crc_check(pkt):
+        if crc_check(pkt) and prev_packet != pkt:
             handle_packet(pkt)
         prev_packet = pkt
 
