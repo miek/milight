@@ -1,4 +1,5 @@
 from bitstring import *
+import crcmod
 import pmt
 import zmq
 
@@ -21,6 +22,25 @@ button_map = {
     14: "Decrease colour temp.",
     15: "Increase Colour temp.",
 }
+
+def bitstring_to_bytes(pkt):
+    ret = []
+    for i in range(0, len(pkt), 8):
+        # get 8 bits
+        chunk = pkt[i:i+8]
+
+        # reverse bit order
+        chunk = chunk[::-1]
+
+        # bitstring -> int -> byte
+        ret.append(chr(int(chunk, 2)))
+    return ''.join(ret)
+
+def crc_check(pkt):
+    pkt_bytes = bitstring_to_bytes(pkt)
+    crc_func = crcmod.predefined.mkPredefinedCrcFun('kermit')
+    return crc_func(pkt_bytes) == 0
+
 
 def slice_int(str, count, reverse = True):
     s1,s2 = slice_str(str, count, reverse)
@@ -68,13 +88,8 @@ def main():
         p = pmt.deserialize_str(msg)
         pkt = pmt.to_python(p)[1]
 
-        # Very lazy integrity checking
-        if pkt == prev_packet:
-            if repeat_count == 4:
-                handle_packet(pkt)
-            repeat_count += 1
-        else:
-            repeat_count = 0
+        if crc_check(pkt):
+            handle_packet(pkt)
         prev_packet = pkt
 
 if __name__ == "__main__":
